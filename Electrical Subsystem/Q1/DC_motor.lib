@@ -1,0 +1,14 @@
+* DC Motor Model for LTspice
+.subckt DC_MOTOR A B
+R_motor A N1 1.2    ; Armature resistance (1.2Ω)
+L_motor N1 N2 1mH   ; Armature inductance (1mH)
+
+* Approximate Speed Calculation: Low-Pass Filter as Integrator
+R_speed N2 speed 1k  ; Simulates speed build-up over time
+C_speed speed 0 10m  ; Adjust for realistic acceleration
+
+* Back EMF: V = Ke * Speed
+E_emf N2 B VALUE={0.1 * V(speed)}
+
+R_load N2 B 5  ; Load resistance (5Ω)
+.ends DC_MOTOR
